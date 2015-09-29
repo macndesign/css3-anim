@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Move to Click Position</title>
+<style>
+body {
+    background-color: #FFF;
+    margin: 30px;
+    margin-top: 10px;
+}
+#contentContainer {
+    width: 550px;
+    height: 350px;
+    border: 5px black solid;
+    overflow: hidden;
+    background-color: #F2F2F2;
+    cursor: pointer;
+}
+#thing {
+    position: relative;
+    width: 66px;
+    height: 66px;
+    border-radius: 33px;
+    background-color: crimson;
+    left: 50px;
+    top: 50px;
+    transition: left .5s ease-in, top .5s ease-in;
+}
+</style>
+</head>
+
+<body>
+<div id="contentContainer">
+    <div id="thing"></div>
+</div>
+
+<script>
+var theThing = document.querySelector("#thing");
+var container = document.querySelector("#contentContainer");
+
+container.addEventListener("click", getClickPosition, false);
+
+function getClickPosition(e) {
+    var parentPosition = getPosition(e.currentTarget);
+    var xPosition = e.clientX - parentPosition.x - (theThing.clientWidth / 2);
+    var yPosition = e.clientY - parentPosition.y - (theThing.clientHeight / 2);
+
+    theThing.style.left = xPosition + "px";
+    theThing.style.top = yPosition + "px";
+}
+
+function getPosition(element) {
+    var xPosition = 0;
+    var yPosition = 0;
+    
+    while (element) {
+    xPosition += (element.offsetLeft - element.scrollLeft + element.clientLeft);
+    yPosition += (element.offsetTop - element.scrollTop + element.clientTop);
+    element = element.offsetParent;
+    }
+    return { x: xPosition, y: yPosition };
+}
+</script>
+</body>
+</html>
